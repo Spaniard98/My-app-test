@@ -1,5 +1,5 @@
 
-export type TransactionType = 'expense' | 'income' | 'transfer';
+export type TransactionType = 'expense' | 'income' | 'transfer' | 'adjustment';
 export type AccountType = 'regular' | 'savings' | 'debt';
 
 export interface Category {
@@ -7,7 +7,7 @@ export interface Category {
   name: string;
   icon: string;
   color: string;
-  type: TransactionType;
+  type: 'expense' | 'income';
 }
 
 export interface Account {
@@ -22,18 +22,19 @@ export interface Account {
 export interface Transaction {
   id: string;
   amount: number;
-  categoryId: string;
-  accountId: string;
-  toAccountId?: string; // For transfers
+  categoryId: string; // "transfer" для переводов
+  accountId: string;  // Откуда
+  toAccountId?: string; // Куда (для переводов)
   date: string;
   note?: string;
   type: TransactionType;
 }
 
-export interface Budget {
-  categoryId: string;
-  limit: number;
-  period: 'month' | 'week';
+export interface AppState {
+  version: number;
+  accounts: Account[];
+  categories: Category[];
+  transactions: Transaction[];
 }
 
 export enum View {
